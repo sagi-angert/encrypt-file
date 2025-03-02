@@ -75,20 +75,24 @@ def xor(bin1, bin2):
 decrypt = 0
 xor_num = convert_dec(int(input("enter a number to encrypt the file using xor command: ")))  # xorring each byte we have depending on input
 xor_num = remove_start(xor_num)
+file_path = input("enter file path: ")
 while decrypt != 1:
-    file = open("C:\\Users\\anger\\Downloads\\text.txt", "rb")
-    file_data = file.read()
-    byte_list = []
-    for byte in file_data:
-       byte_list.append(convert_dec(byte))
-    for byte in range(len(byte_list)):
-       byte_list[byte] = xor(byte_list[byte], xor_num)
-    file.close()
-    file = open("C:\\Users\\anger\\Downloads\\text.txt", "wb")
-    file.truncate(0)
-    for byte in range(len(byte_list)):
-        byte_list[byte] = int(byte_list[byte], 2).to_bytes(1, "big")
-        file.write(byte_list[byte])
-    file.flush()
-    decrypt = int(input("file encrypted. press 1 to exit or any other button to decrypt "))
-    file.close()
+    try:
+        file = open(file_path, "rb")
+        file_data = file.read()
+        byte_list = []
+        for byte in file_data:
+           byte_list.append(convert_dec(byte))
+        for byte in range(len(byte_list)):
+           byte_list[byte] = xor(byte_list[byte], xor_num)
+        file.close()
+        file = open(file_path, "wb")
+        file.truncate(0)
+        for byte in range(len(byte_list)):
+            byte_list[byte] = int(byte_list[byte], 2).to_bytes(1, "big")
+            file.write(byte_list[byte])
+        file.flush()
+        decrypt = int(input("file encrypted. press 1 to exit or any other button to decrypt "))
+        file.close()
+    except:
+        file_path = input("file path doesnt exist, input it again: ")
